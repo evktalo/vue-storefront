@@ -35,6 +35,29 @@ describe('Compare', () => {
     });
   })
 
+  it('Compare does not dispatch attribute list action on created when loaded by attribute metadata', () => {
+    const storeMock = {
+      modules: {
+        attribute: {
+          actions: {
+            list: jest.fn(() => [])
+          },
+          namespaced: true
+        }
+      }
+    };
+
+    config.entities = {
+      attribute: {
+        loadByAttributeMetadata: true
+      }
+    }
+
+    mountMixinWithStore(Compare, storeMock);
+
+    expect(storeMock.modules.attribute.actions.list).not.toBeCalled();
+  })
+
   it('removeFromCompare dispatches addItem action', () => {
     const product = {};
 
